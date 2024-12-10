@@ -2,32 +2,38 @@
 
 namespace App\Models;
 
+use App\Traits\GeneratesNumbers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory,GeneratesNumbers;
 
     // Specify the table name if it's not the plural form of the model name
     protected $table = 'products';
 
-    // Specify the fillable attributes for mass assignment
-    protected $guarded = [];
+    protected $guarded="";
 
-    /**
-     * Get the category that owns the product.
-     */
-    public function category()
+    public static function boot()
     {
-        return $this->belongsTo(Category::class);
+        parent::boot();
+
+        // Automatically generate a number when creating a new product
+        static::creating(function ($product) {
+            $product->sku = $product->generateNumber('Product');
+        });
     }
 
-    /**
-     * Get the tarifs associated with the product.
-     */
-    public function tarifs()
-    {
-        return $this->belongsToMany(Tarif::class, 'product_has_tarifs');
+
+    public function rollbackSequence($model)
+{
+    $sequence = DB::table('number_sequences')->where('model', $model)->first();
+
+    if ($sequence && $sequence->sequence > 0) {
+        DB::table('number_sequences')->where('model', $model)->decrement('sequence');
     }
+}
+  
 }

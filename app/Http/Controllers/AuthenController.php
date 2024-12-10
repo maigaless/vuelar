@@ -49,6 +49,8 @@ public function login(Request $request)
 
     $user = User::where('email', $email)->first();
 
+   
+
     if (!$user) {
         return response()->json(['error' => 'Invalid email'], 401);
     }
@@ -57,11 +59,9 @@ public function login(Request $request)
         return response()->json(['error' => 'Invalid password'], 401);
     }
 
-    Auth::login($user);
+   $login = Auth::attempt(['email' => $email, 'password' => $password]);
 
-    $token = $user->createToken('auth_token')->plainTextToken;
-
-    $resp['success'] = true;
+    $resp['success'] = $login;
     $resp['token'] = $user->remember_token;
     $resp['message'] = 'Logged in successfully';
     $resp['user'] =$user;

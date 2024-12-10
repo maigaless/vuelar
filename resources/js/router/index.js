@@ -45,6 +45,26 @@ const routes = [
         component: () => import('@/vues/app/catalog.vue'),
       },
       {
+        path: '/categories', // Note: path should not start with a '/'
+        name: 'categories',
+        component: () => import('@/vues/app/categories.vue'),
+      },
+      {
+        path: '/tarifs', // Note: path should not start with a '/'
+        name: 'tarifs',
+        component: () => import('@/vues/app/tarifs.vue'),
+      },
+      {
+        path: '/depots', // Note: path should not start with a '/'
+        name: 'depotStocks',
+        component: () => import('@/vues/app/depots.vue'),
+      },
+      {
+        path: '/parameters', // Note: path should not start with a '/'
+        name: 'parameters',
+        component: () => import('@/vues/app/parameters.vue'),
+      },
+      {
         path: '/users', // Note: path should not start with a '/'
         name: 'users',
         component: () => import('@/components/appSetting/users.vue'),

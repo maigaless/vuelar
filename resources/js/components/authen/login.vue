@@ -83,6 +83,7 @@
 
 <script>
 import {mapActions} from 'vuex'
+import Cookies from 'js-cookie';
 export default {
   data() {
     return {
@@ -124,7 +125,12 @@ export default {
 
           if (response.data.success) {
             localStorage.setItem('vl_token', response.data.user.remember_token);
-             this.SET_LOGIN_INFO(response.data.user, response.data.user.is_admin,true);
+               // Save token in cookies
+               const token = response.data.vl_token;
+                  // Save token using js-cookie
+             Cookies.set('vl_token', token, { expires: 0, secure: true }); // 1 day expiry
+
+             this.SET_LOGIN_INFO(response.data);
              this.$router.push({name: "dashboard"});
           }
         } else {
@@ -144,6 +150,7 @@ export default {
           }
         }
       } catch (error) {
+        console.error(error);
         this.errorMessage = 'Login failed. Please check your credentials.';
       }
     },
