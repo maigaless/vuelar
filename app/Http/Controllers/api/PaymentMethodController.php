@@ -19,25 +19,25 @@ class PaymentMethodController extends Controller
 
 
 public function storePaymentMethod(Request $request){
-$request->validate([
-'name' => 'required|string',
-'code' => [
-    'required',
-    'string',
-    Rule::unique('payment_methods')->ignore($request->get('id')),
-],
-'is_active'=>'boolean',
-]);
+                    $request->validate([
+                    'name' => 'required|string',
+                    'code' => [
+                        'required',
+                        'string',
+                        Rule::unique('payment_methods')->ignore($request->get('id')),
+                    ],
+                    'is_active'=>'boolean',
+                    ]);
 
-$PaymentMethod = PaymentMethod::updateOrCreate(['id' => $request->get('id')],
-                                 ['name' =>$request->get('name'),
-                                  'code' =>$request->get('code'),
-                                  'is_active' => $request->get('is_active') == null ? false:true]);
-                                  
+                    $PaymentMethod = PaymentMethod::updateOrCreate(['id' => $request->get('id')],
+                                                    ['name' =>$request->get('name'),
+                                                    'code' =>$request->get('code'),
+                                                    'is_active' => $request->get('is_active') == null ? false:true]);
+                                                    
 
-$resp['succes'] = true;
-$resp['message'] = 'PaymentMethod created successfully';
-$resp['paymentMethod'] = $PaymentMethod;
-return response()->json($resp, 201);
+                    $resp['succes'] = true;
+                    $resp['message'] = 'PaymentMethod created successfully';
+                    $resp['paymentMethod'] = $PaymentMethod;
+                    return response()->json($resp, 201);
 }
 }

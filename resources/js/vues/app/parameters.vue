@@ -29,6 +29,7 @@ import Depots from "./Depots.vue"; // Replace with the actual file path
 import PaymentWays from "./paymentsWays.vue";
 import ShippingsWays from "./shippingsWays.vue"
 import Taxes from "./taxes.vue"
+import numerotation from "./numerotation.vue";
 export default {
   data() {
     return {
@@ -39,7 +40,8 @@ export default {
         { name: "depots", label: "Depots" },
         { name: "paymentWays", label: "Modes de Paiement" },
         { name: "shippingWays", label: "Modes de Livraison" },
-        { name: "taxes", label: "Taxes" }
+        { name: "taxes", label: "Taxes" },
+        { name: "numerotation", label: "Numerotation" },
       ],
     };
   },
@@ -62,6 +64,10 @@ export default {
 
         case "taxes":
           return Taxes;  
+
+        case "numerotation":
+          return numerotation;    
+        
         default:
           return null;
       }

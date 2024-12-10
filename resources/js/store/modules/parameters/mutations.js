@@ -113,23 +113,28 @@ export const UPDATE_TAXES = (state, tax) =>{
   }
 }
 
+// ---------------------Number_Patterns-------------------------------------
 
-
-
-
-
-
-
-
-
-//----------------PRODUCTs--------------------------------
-export const SET_PRODUCT = (state,data)=>{
-    state.product = data
+export const SET_NUMBERPATTERNS = (state,data)=>{
+  state.numberPatterns = data
 }
 
-export const SET_PRODUCTS = (state,data)=>{
-    state.products = data
+
+export const UPDATE_NUMBERPATTERNS = (state, numberPattern) =>{
+  const existingIndex = state.numberPatterns.findIndex((item) => item.id === numberPattern.id);
+
+  if (existingIndex !== -1) {
+    // Update the existing category
+    state.numberPatterns.splice(existingIndex, 1, numberPattern);
+  } else {
+    // Add a new category
+    state.numberPatterns.push(numberPattern);
+  }
 }
+
+
+
+
 
 
 

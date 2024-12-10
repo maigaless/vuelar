@@ -38,7 +38,14 @@ export const GET_SHIPPMENT_METHODS = (state)=>{
 }
 
 
-//---------------------TAXES-----------------------------------
+//---------------------TAXES--------------------------------------------
 export const GET_TAXES = (state)=>{
     return state.taxs
+}
+
+
+//------------------------NUMBER_PATTERNS--------------------------------
+
+export const GET_NUMBER_PATTERNS = (state)=>{
+    return state.number_Patterns
 }

@@ -24,5 +24,11 @@ export default {
    payment_Methods:[],
    shipping_Methods:[],
    taxs: [],
+   numberPatterns:[],
+   models:[
+           {id:1,name:'Product'},
+           {id:2,name:'Customer'},
+           {id:3,name:'Supplier'}
+        ]
 
 }

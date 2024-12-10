@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthenController;
 use App\Http\Controllers\api\CatergoryController;
 use App\Http\Controllers\api\TarifController;
 use App\Http\Controllers\api\DepotStockController;
+use App\Http\Controllers\api\NumberPatternController;
 use App\Http\Controllers\api\PaymentMethodController;
 use App\Http\Controllers\api\ProductController;
 use App\Http\Controllers\api\ShippmentMethodController;
@@ -76,4 +77,10 @@ Route::controller(ProductController::class)->group(function(){
     Route::get('/products/next', 'getNextProductNumber')->name("Next_ProductNumber");
     Route::post('/products/rollback','rollbackNumber')->name("Rollback_ProductNumber");
     Route::post('/products/store', 'StoreProduct')->name("proucts_store");
+});
+
+
+Route::controller(NumberPatternController::class)->group(function(){
+    Route::get('/numerotations','AllPatterns')->name('numerotations');
+    Route::post('/numerotations/store', 'storePattern')->name('store_pattern');
 });
