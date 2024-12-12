@@ -47,5 +47,5 @@ export const GET_TAXES = (state)=>{
 //------------------------NUMBER_PATTERNS--------------------------------
 
 export const GET_NUMBER_PATTERNS = (state)=>{
-    return state.number_Patterns
+    return state.numberPatterns
 }

@@ -12,7 +12,8 @@ class NumberPatternController extends Controller
     //
 
     public function AllPatterns(){
-         $allpatterns = NumberPattern::all();
+         
+         return response()->json(['numbers'=>NumberPattern::all()], 200);
     }
 
 

@@ -17,7 +17,7 @@ export default {
   components: { Sidebar, Topbar },
   methods: {
     ...mapActions(['fetchCategories','fetchTarifs','fetchDepots',
-                  'fetchPaymentWays','fetchShippmentWays','fetchTaxes','fetchProducts']),
+                  'fetchPaymentWays','fetchShippmentWays','fetchTaxes','fetchNumberPatterns']),
   },
   mounted() {
     this.fetchCategories();
@@ -26,7 +26,7 @@ export default {
     this.fetchPaymentWays();
     this.fetchShippmentWays();
     this.fetchTaxes();
-    this.fetchProducts();
+    this.fetchNumberPatterns()
   },
 }
 </script>

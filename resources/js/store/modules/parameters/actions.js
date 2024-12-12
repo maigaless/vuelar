@@ -187,3 +187,32 @@ export const  SaveTaxe = async ({ commit }, taxData) =>{
   }
 
 }
+
+export const fetchNumberPatterns = ({commit})=>{
+ 
+
+      axios.get('/api/numerotations')
+      .then(response => {
+        console.log(response.data.numbers);
+          commit('UPDATE_NUMBERPATTERNS', response.data.numbers.[]);
+      })
+      .catch(error => {
+          console.error("There was an error fetching the Numbers patterns", error);
+          
+      });
+    
+}
+
+export const SaveNumberPattern = async ({commit},numberPatterndata)=>{
+  try {
+    const response = await axios.post('/api/numerotations/store', numberPatterndata);
+      // Assuming the response contains the created category
+    commit('UPDATE_NUMBERPATTERNS', response.data.numberPatterndata);
+    
+  } catch (error) {
+    console.error('Error creating category:', error);
+
+    // Handle error appropriately (e.g., show a notification)
+
+  }
+}
