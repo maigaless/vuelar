@@ -44,6 +44,16 @@ const routes = [
         name: 'catalog',
         component: () => import('@/vues/app/catalog.vue'),
       },
+      {
+        path: '/suppliers', // Note: path should not start with a '/'
+        name: 'suppliers',
+        component: () => import('@/vues/app/suppliers.vue'),
+      },
+      {
+        path: '/customers', // Note: path should not start with a '/'
+        name: 'customers',
+        component: () => import('@/vues/app/customers.vue'),
+      },
     
     
       {

@@ -2,15 +2,15 @@
   <div class="w-full px-4 py-6">
    
     
-<div class="flex flex-row items-center px-1 border-b-2 ">
-   <h1 class="text-3xl font-bold text-gray-800 flex-1 page-title ">Categories</h1>
-   <div class="w-auto h-12 ">
+<div class="flex flex-row-reverse items-center px-1  mb-1 border-b pb-1">
+  
+   <div class="w-auto h-9 ">
       <span @click="AddNewCategory" class="w-full bg-blue-400 cursor-pointer py-2 px-2 text-white"> New Category</span>
    </div>
 </div>
 
     <!-- Table Wrapper -->
-    <div class="overflow-hidden border rounded-lg">
+    <div class="overflow-hidden border ">
       <table class="min-w-full bg-white">
         <!-- Table Header -->
         <thead>

@@ -11,6 +11,8 @@ use App\Http\Controllers\api\NumberPatternController;
 use App\Http\Controllers\api\PaymentMethodController;
 use App\Http\Controllers\api\ProductController;
 use App\Http\Controllers\api\ShippmentMethodController;
+use App\Http\Controllers\api\SupplierController;
+use App\Http\Controllers\api\CustomerController;
 use App\Http\Controllers\api\TaxController;
 
 
@@ -83,4 +85,16 @@ Route::controller(ProductController::class)->group(function(){
 Route::controller(NumberPatternController::class)->group(function(){
     Route::get('/numerotations','AllPatterns')->name('numerotations');
     Route::post('/numerotations/store', 'storePattern')->name('store_pattern');
+    Route::post('/numerotations/resetcounter', 'resetSequance')->name('resetSequance_pattern');
+});
+
+
+Route::controller(SupplierController::class)->group(function(){
+    Route::get('/suppliers','allSuppliers')->name('suppliers.list');
+    Route::post('/suppliers/store','StoreSupplier')->name('suppliers.store');
+});
+
+Route::controller(CustomerController::class)->group(function(){
+    Route::get('/customers','allCustomers')->name('customers.list');
+    Route::post('/customers/store','StoreCustomer')->name('costumers.store');
 });

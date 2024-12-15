@@ -12,6 +12,7 @@ import store from './store/index.js'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Toast from "vue-toastification";
+import 'vue-toastification/dist/index.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
@@ -26,8 +27,11 @@ app.use(store);
 // VueAxios and axios
 app.use(VueAxios,axios) 
 
-// Toast
-app.use(Toast)
+const options={
+  // You can set your default options here
+};
+
+app.use(Toast, options);
 
 const Sweetoptions = {
   confirmButtonColor: '#41b882',

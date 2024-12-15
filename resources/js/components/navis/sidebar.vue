@@ -23,6 +23,24 @@
             Catalog
           </router-link>
         </div>
+
+        
+
+        <div class="w-full hover:bg-red-500 no-underline ">
+          <router-link 
+            to="/suppliers"
+            class="block py-1 px-3 text-lg text-white hover:text-gray-900  no-underline  transition duration-200">
+            Suppliers
+          </router-link>
+        </div>
+
+        <div class="w-full hover:bg-red-500 no-underline ">
+          <router-link 
+            to="/customers"
+            class="block py-1 px-3 text-lg text-white hover:text-gray-900  no-underline  transition duration-200">
+            Customers
+          </router-link>
+        </div>
      
 
         

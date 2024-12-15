@@ -5,21 +5,20 @@
     
         <button
           @click="openModal"
-          class="bg-blue-500 text-white py-1 px-1 rounded hover:bg-blue-600"
+          class="bg-blue-500 text-white py-2 px-2 rounded hover:bg-blue-600"
         >
-          Add New Pattern
+        <i class="fas fa-plus"></i>  Ajouter Nouveau Model
         </button>
       </div>
-  {{ GET_NUMBER_PATTERNS }}
+  
       <!-- Patterns Table -->
-      <div class="overflow-hidden border rounded-lg">
+      <div class="overflow-hidden border ">
         <table class="min-w-full bg-white">
           <thead>
             <tr class="bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
               <th class="py-2 px-4 text-left">Model</th>
               <th class="py-2 px-4 text-left">Template</th>
-              <th class="py-2 px-4 text-left">Prefix</th>
-              <th class="py-2 px-4 text-left">Suffix</th>
+            
               <th class="py-2 px-4 text-left">Actions</th>
             </tr>
           </thead>
@@ -31,21 +30,22 @@
             >
               <td class="py-2 px-4">{{ pattern.model }}</td>
               <td class="py-2 px-4">{{ pattern.template }}</td>
-              <td class="py-2 px-4">{{ pattern.prefix }}</td>
-              <td class="py-2 px-4">{{ pattern.suffix }}</td>
+            
               <td class="py-2 px-4">
-                <button
-                  @click="editPattern(pattern)"
-                  class="text-blue-500 hover:underline"
+                <span
+                  @click="openModal(pattern)"
+                  class="text-blue-500 hover:underline mr-2"
                 >
-                  Edit
-                </button>
-                <button
-                  @click="deletePattern(pattern.id)"
-                  class="text-red-500 hover:underline ml-2"
+                  <i class="fas fa-pencil "></i>
+                </span>
+
+                <span
+                  @click="resetCounter(pattern.model)"
+                  class="text-orange-500 hover:underline cursor-pointer hover:text-[12px]"
                 >
-                  Delete
-                </button>
+                  <i class="fas fa-refresh "></i>
+                </span>
+               
               </td>
             </tr>
           </tbody>
@@ -53,7 +53,7 @@
       </div>
   
       <NumberPatternModal 
-      v-if="isModalVisible" 
+      v-if="isVisible" 
       :numberpattern="Selectednumberpattern" 
       @closeModal="closeModal" 
     />
@@ -64,13 +64,17 @@
   <script>
   import {mapGetters,mapActions} from 'vuex'
 
-  import NumberPatternModal from "../forms/frm_shippment_method.vue";
+  import NumberPatternModal from "../forms/frm_number_patterns.vue";
+
+  import { useToast } from "vue-toastification";
+
+ 
 
   export default {
     data() {
       return {
-      
-        isModalVisible: false, // Modal visibility
+        Selectednumberpattern:{},
+        isVisible: false, // Modal visibility
     
       };
     },
@@ -85,11 +89,14 @@
     setSelection(numberpattern){
       this.Selectednumberpattern=numberpattern
     },
+    editPattern(pattern){
+            this.Selectedpattern=pattern
+    },
     AddNewnumberpattern(){
         this.openModal({})
+        this.isVisible = true; // Show the modal
     },
     openModal(numberpattern) {
-     
       this.Selectednumberpattern = numberpattern;
       this.isVisible = true; // Show the modal
     },
@@ -97,6 +104,29 @@
       this.isVisible = false; // Hide the modal
       this.Selectednumberpattern = {};
     },
+   async resetCounter($model) {
+      const taost = useToast();
+     
+      try {
+          const response = await axios.post('/api/numerotations/resetcounter',{model:$model });
+          
+
+          if (response.data.success){
+            const taost = useToast();
+            taost.success(response.data.message);
+          }
+          
+          
+        } catch (error) {
+         
+          const taost = useToast();
+            taost.success(response.error.message);
+        }
+
+
+   
+    }
+   
   },
     
   };

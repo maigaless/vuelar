@@ -1,4 +1,5 @@
 import axios from "axios";
+
 //------------------------CATEGORIES----------------------------------
 export const fetchCategories = ({ commit }) => {
     axios.get('/api/categories')
@@ -193,8 +194,7 @@ export const fetchNumberPatterns = ({commit})=>{
 
       axios.get('/api/numerotations')
       .then(response => {
-        console.log(response.data.numbers);
-          commit('UPDATE_NUMBERPATTERNS', response.data.numbers.[]);
+          commit('SET_NUMBERPATTERNS', response.data);
       })
       .catch(error => {
           console.error("There was an error fetching the Numbers patterns", error);
@@ -205,9 +205,9 @@ export const fetchNumberPatterns = ({commit})=>{
 
 export const SaveNumberPattern = async ({commit},numberPatterndata)=>{
   try {
-    const response = await axios.post('/api/numerotations/store', numberPatterndata);
+    const response = await axios.post('/api/numerotations/store',numberPatterndata);
       // Assuming the response contains the created category
-    commit('UPDATE_NUMBERPATTERNS', response.data.numberPatterndata);
+    commit('UPDATE_NUMBERPATTERNS', response.data.numberPattern );
     
   } catch (error) {
     console.error('Error creating category:', error);
@@ -216,3 +216,5 @@ export const SaveNumberPattern = async ({commit},numberPatterndata)=>{
 
   }
 }
+
+

@@ -3,10 +3,9 @@
      
       
   <div class="flex flex-row items-center px-1 border-b-2 ">
-     <h1 class="text-3xl font-bold text-gray-800 flex-1 page-title ">t</h1>
+     <h1 class="text-3xl font-bold text-gray-800 flex-1  page-title">Customers</h1>
      <div class="w-auto h-9 ">
-        <span @click="AddNewtaxe" class="w-full bg-blue-400 cursor-pointer py-2 px-2 text-white"> 
-         + Tax  </span>
+        <span @click="AddNewCustomer" class="w-full bg-blue-400 cursor-pointer py-2 px-2 text-white"> New Customer</span>
      </div>
   </div>
   
@@ -18,10 +17,9 @@
             <tr class="bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
               <th class="py-1 px-2 text-left">ID</th>
               <th class="py-1 px-2 text-left">Code</th>
-              <th class="py-1 px-2 text-left">Name</th>
-              <th class="py-1 px-2 text-left">rate</th>
-              <th class="py-1 px-2 text-left">Type</th>
-              <th class="py-1 px-2 text-left">Opérationnel</th>
+              <th class="py-1 px-2 text-left">Name</th> 
+              <th class="py-1 px-2 text-left">Status</th>     
+           
               <th class="py-1 px-2 text-left">Action</th>
             </tr>
           </thead>
@@ -29,26 +27,24 @@
           <!-- Table Body -->
           <tbody class="text-gray-600 text-sm font-light">
             <tr
-              v-for="taxe in GET_TAXES"
-              :key="taxe.id"
-              @dblclick="openModal(taxe)"
-              @click="setSelection(taxe)"
+              v-for="customer in GET_CUSTOMERS"
+              :key="customer.id"
+              @dblclick="openModal(customer)"
+              @click="setSelection(customer)"
               class="border-b border-gray-200 hover:bg-gray-100"
-              :class="taxe.id === Selectedtaxe.id ? 'bg-yellow-200' : ''"
+              :class="customer.id === selectedCustomer.id ? 'bg-yellow-200' : ''"
             >
-              <td class="py-1 px-2 text-left whitespace-nowrap">{{ taxe.id }}</td>
-              <td class="py-1 px-2 text-left">{{ taxe.code }}</td>
-              <td class="py-1 px-2 text-left">{{ taxe.name }}</td>
-              <td class="py-1 px-2 text-left">{{ taxe.rate}} {{ taxe.percentage == 1 ? '%' : '$' }} </td>
-              <td class="py-1 px-2 text-left">{{ taxe.percentage == 1 ? 'Pourcentage' : 'Fixe' }}</td>
+              <td class="py-1 px-2 text-left whitespace-nowrap">{{ customer.id }}</td>
+              <td class="py-1 px-2 text-left">{{ customer.code }}</td>
+              <td class="py-1 px-2 text-left">{{ customer.name }}</td>
               <td class="py-1 px-2 text-left">
-                <i :class="taxe.is_active == true ? 'fas fa-check-circle mr-2':''"></i>
-              </td>
+              <i :class="customer.is_active == 1 ? 'fa fa-check':'fa fa-remove'"></i> 
               
+              </td>
              
               <td class="py-1 px-2 text-left">
                 <span 
-                  @click.stop="openModal(taxe)" 
+                  @click.stop="openModal(customer)" 
                   class="text-blue-500 hover:underline cursor-pointer">
                   <i class="fas fa-pencil"></i>
                 </span>
@@ -58,10 +54,10 @@
         </table>
       </div>
       
-      <!-- taxe Modal -->
-      <taxeModal 
+      <!-- Customer Modal -->
+      <CustomerModal 
         v-if="isVisible" 
-        :Tax="Selectedtaxe" 
+        :customer="selectedCustomer" 
         @closeModal="closeModal" 
       />
     </div>
@@ -69,38 +65,47 @@
   
   <script>
   import { mapActions, mapGetters } from "vuex";
-  import taxeModal from "../forms/frm_tax.vue";
+  import CustomerModal from "../forms/frm_customer.vue";
   
   export default {
     data() {
       return {
-        Selectedtaxe: {}, // Data to pass to the modal
+        selectedCustomer: {}, // Data to pass to the modal
         isVisible: false, // Modal visibility state
       };
     },
     components: {
-      taxeModal,
+        CustomerModal,
     },
     computed: {
-      ...mapGetters(["GET_TAXES"]),
+      ...mapGetters(["GET_CUSTOMERS"]),
+    
     },
     methods: {
-      ...mapActions(["fetchTaxes"]),
-      setSelection(taxe){
-        this.Selectedtaxe=taxe
+      ...mapActions(["fetchCustomers"]),
+      setSelection(Customer){
+        this.selectedCustomer=Customer
       },
-      AddNewtaxe(){
+      AddNewCustomer(){
           this.openModal({})
       },
-      openModal(taxe) {
-       
-        this.Selectedtaxe = taxe;
+      openModal(Customer) {
+        this.selectedCustomer = Customer;
         this.isVisible = true; // Show the modal
       },
       closeModal() {
         this.isVisible = false; // Hide the modal
-        this.Selectedtaxe = {};
+        this.selectedCustomer = {};
       },
+      GetParentName(parent_id){
+        const parent = this.GET_CUSTOMERS.find(item => item.id === parent_id);
+        return parent ? parent.ds_name : "-";
+      },
+      GetTypeCustomer(ds_type){
+        const dstype = this.GET_DS_TYPES.find(item => item.id === ds_type);
+        return dstype ? dstype.name : "-";
+      }
+  
     },
   };
   </script>

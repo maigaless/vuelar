@@ -1,6 +1,4 @@
 <?php
-
-
 namespace App\Traits;
 
 use Illuminate\Support\Facades\DB;
@@ -13,23 +11,25 @@ trait GeneratesNumbers
      *
      * @param string $model The model name (e.g., Product, Customer, Bill)
      * @return string
+     * @throws \Exception
      */
     public function generateNumber($model)
     {
-        // Fetch the template for the given model
-        $pattern = DB::table('number_patterns')
-            ->where('model', $model)
-            ->first();
+        // Fetch the pattern for the given model
+        $pattern = DB::table('number_patterns')->where('model', $model)->first();
 
         if (!$pattern) {
-            throw new \Exception("Number pattern for model {$model} not found.");
+            throw new \Exception("Number pattern for model '{$model}' not found.");
         }
 
-        // Fetch the current sequence for this model
-        $sequence = DB::table('number_sequences')->where('model', $model)->first();
+        // Extract the number of zeros and other parts of the template
+        $template = $pattern->template;
+        $nbZeros = $pattern->Nb_zeros;
 
+        // Fetch or initialize the sequence for the given model
+        $sequence = DB::table('number_sequences')->where('model', $model)->first();
         if (!$sequence) {
-            // Initialize sequence if it doesn't exist
+            // Start sequence if it doesn't exist
             $sequenceValue = 1;
             DB::table('number_sequences')->insert([
                 'model' => $model,
@@ -43,37 +43,33 @@ trait GeneratesNumbers
         }
 
         // Replace placeholders in the template
-        $prefix = $this->replacePlaceholders($pattern->prefix ?? '', $sequenceValue);
-        $suffix = $this->replacePlaceholders($pattern->suffix ?? '', $sequenceValue);
-        $number = $pattern->template;
+        $generatedNumber = $this->replacePlaceholders($template, $sequenceValue, $nbZeros);
 
-        $number = str_replace('{PREFIX}', $prefix, $number);
-        $number = str_replace('{SEQUENCE}', str_pad($sequenceValue, 6, '0', STR_PAD_LEFT), $number);
-        $number = str_replace('{SUFFIX}', $suffix, $number);
-
-        return $number;
+        return $generatedNumber;
     }
 
     /**
-     * Replace placeholders in prefix or suffix.
+     * Replace placeholders in the template.
      *
-     * @param string $text The text containing placeholders
+     * @param string $template The template to process
      * @param int $sequenceValue The current sequence value
+     * @param int $nbZeros The number of zeros for the incrementable part
      * @return string
      */
-    private function replacePlaceholders($text, $sequenceValue)
+    private function replacePlaceholders($template, $sequenceValue, $nbZeros)
     {
-        $replacements = [
-            'YY' => Carbon::now()->format('y'),
-            'MM' => Carbon::now()->format('m'),
-            'dd' => Carbon::now()->format('d'),
-            '{SEQUENCE}' => str_pad($sequenceValue, 6, '0', STR_PAD_LEFT),
-        ];
+        // Generate the padded sequence value
+       
+         $paddedSequence = str_pad($sequenceValue, $nbZeros, '0', STR_PAD_LEFT);
 
-        foreach ($replacements as $key => $value) {
-            $text = str_replace($key, $value, $text);
-        }
+         // Replace the sequence placeholder
+         $number = preg_replace('/\{0+\}/', $paddedSequence, $template);
 
-        return $text;
+        // Replace date placeholders dynamically
+        $number = str_replace('YY', Carbon::now()->format('y'), $number);
+        $number = str_replace('MM', Carbon::now()->format('m'), $number);
+        $number = str_replace('DD', Carbon::now()->format('d'), $number);
+
+        return $number;
     }
 }

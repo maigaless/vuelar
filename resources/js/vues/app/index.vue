@@ -16,8 +16,8 @@ import Topbar from '../../components/navis/topbar.vue';
 export default {
   components: { Sidebar, Topbar },
   methods: {
-    ...mapActions(['fetchCategories','fetchTarifs','fetchDepots',
-                  'fetchPaymentWays','fetchShippmentWays','fetchTaxes','fetchNumberPatterns']),
+    ...mapActions(['fetchCategories','fetchTarifs','fetchDepots','fetchSuppliers','fetchCustomers',
+                  'fetchPaymentWays','fetchShippmentWays','fetchTaxes','fetchNumberPatterns','fetchProducts']),
   },
   mounted() {
     this.fetchCategories();
@@ -26,7 +26,10 @@ export default {
     this.fetchPaymentWays();
     this.fetchShippmentWays();
     this.fetchTaxes();
-    this.fetchNumberPatterns()
+    this.fetchNumberPatterns();
+    this.fetchSuppliers();
+    this.fetchCustomers();
+    this.fetchProducts();
   },
 }
 </script>

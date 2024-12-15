@@ -49,3 +49,7 @@ export const GET_TAXES = (state)=>{
 export const GET_NUMBER_PATTERNS = (state)=>{
     return state.numberPatterns
 }
+
+export const GET_MODELS_FOR_TEMPLATES = (state)=>{
+    return state.models
+}

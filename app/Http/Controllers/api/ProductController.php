@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function getAllProducts()
     {
         // Fetch all products
-        $products = Product::all();
+        $products = Product::with(['tarifs', 'depots', 'suppliers'])->get();
 
         // Return the products as JSON (or pass to a view)
         return response()->json($products);

@@ -4,7 +4,7 @@
       
   <div class="flex flex-row items-center px-1 border-b-2 ">
      <h1 class="text-3xl font-bold text-gray-800 flex-1  page-title">Tarifs</h1>
-     <div class="w-auto h-12 ">
+     <div class="w-auto h-9 ">
         <span @click="AddNewTarif" class="w-full bg-blue-400 cursor-pointer py-2 px-2 text-white"> New Tarif</span>
      </div>
   </div>
